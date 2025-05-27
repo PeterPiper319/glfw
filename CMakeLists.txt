@@ -33,6 +33,13 @@ cmake_dependent_option(GLFW_USE_HYBRID_HPG "Force use of high-performance GPU on
                        "WIN32" OFF)
 cmake_dependent_option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" ON
                        "MSVC" OFF)
+if(ANDROID OR CMAKE_SYSTEM_NAME STREQUAL "Android")
+    set(GLFW_BUILD_WIN32 OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_COCOA OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_X11 OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_WAYLAND OFF CACHE BOOL "" FORCE)
+    message(STATUS "GLFW: No windowing backend selected for ANDROID")
+endif()                       
 
 set(GLFW_LIBRARY_TYPE "${GLFW_LIBRARY_TYPE}" CACHE STRING
     "Library type override for GLFW (SHARED, STATIC, OBJECT, or empty to follow BUILD_SHARED_LIBS)")
